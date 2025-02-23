@@ -1,0 +1,76 @@
+{
+  "title": "Web Development Fundamentals",
+  "description": "Test your knowledge of modern web development concepts",
+  "timeLimit": 1800,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple-choice",
+      "question": "What is the primary purpose of React's useEffect hook?",
+      "options": [
+        "To handle side effects in functional components",
+        "To create new components",
+        "To style components",
+        "To handle routing"
+      ],
+      "correctAnswer": "To handle side effects in functional components"
+    },
+    {
+      "id": "q2",
+      "type": "multiple-response",
+      "question": "Which of the following are valid ways to style React components?",
+      "options": [
+        "CSS Modules",
+        "Styled Components",
+        "Tailwind CSS",
+        "Inline Styles"
+      ],
+      "correctAnswer": ["CSS Modules", "Styled Components", "Tailwind CSS", "Inline Styles"]
+    },
+    {
+      "id": "q3",
+      "type": "fill-in-blank",
+      "question": "The ________ hook is used to manage state in React functional components.",
+      "correctAnswer": "useState"
+    },
+    {
+      "id": "q4",
+      "type": "multiple-choice",
+      "question": "Looking at this CSS Box Model diagram, which layer comes immediately after the content?",
+      "imageUrl": "https://images.unsplash.com/photo-1544982877-f0f4427dee24?w=800&auto=format&fit=crop&q=60",
+      "options": [
+        "Padding",
+        "Border",
+        "Margin",
+        "Outline"
+      ],
+      "correctAnswer": "Padding"
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "question": "Which color format is being used in this code snippet?",
+      "imageUrl": "https://images.unsplash.com/photo-1555532538-dcdbd01d373d?w=800&auto=format&fit=crop&q=60",
+      "options": [
+        "Hexadecimal",
+        "RGB",
+        "HSL",
+        "Named Color"
+      ],
+      "correctAnswer": "Hexadecimal"
+    },
+    {
+      "id": "q6",
+      "type": "multiple-response",
+      "question": "Which of these responsive design principles are demonstrated in this layout?",
+      "imageUrl": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&auto=format&fit=crop&q=60",
+      "options": [
+        "Fluid Grid",
+        "Flexible Images",
+        "Media Queries",
+        "Mobile-First Design"
+      ],
+      "correctAnswer": ["Fluid Grid", "Flexible Images", "Media Queries"]
+    }
+  ]
+}
