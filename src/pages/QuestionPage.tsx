@@ -35,21 +35,21 @@ export const QuestionPage: React.FC<QuestionPageProps> = ({
         return (
           <div className="space-y-4">
             {question.options?.map((option, index) => (
-              <label
-                key={index}
-                className="flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg
-                           cursor-pointer transform transition-all hover:scale-[1.02]"
-              >
+              <div key={index} className="flex items-center">
                 <input
                   type="radio"
                   name={question.id}
                   value={option}
                   checked={currentAnswer === option}
                   onChange={(e) => onAnswer(e.target.value)}
-                  className="w-4 h-4 text-indigo-600"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 
+                             dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 
+                             dark:border-gray-600"
                 />
-                <span className="ml-3 text-gray-700 dark:text-gray-200">{option}</span>
-              </label>
+                <label className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {option}
+                </label>
+              </div>
             ))}
           </div>
         );
@@ -58,11 +58,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = ({
         return (
           <div className="space-y-4">
             {question.options?.map((option, index) => (
-              <label
-                key={index}
-                className="flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg
-                           cursor-pointer transform transition-all hover:scale-[1.02]"
-              >
+              <div key={index} className="flex items-center">
                 <input
                   type="checkbox"
                   value={option}
@@ -73,10 +69,14 @@ export const QuestionPage: React.FC<QuestionPageProps> = ({
                       : (currentAnswer as string[]).filter(a => a !== option);
                     onAnswer(newAnswers);
                   }}
-                  className="w-4 h-4 text-indigo-600"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded 
+                             focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 
+                             dark:bg-gray-700 dark:border-gray-600"
                 />
-                <span className="ml-3 text-gray-700 dark:text-gray-200">{option}</span>
-              </label>
+                <label className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {option}
+                </label>
+              </div>
             ))}
           </div>
         );
@@ -87,28 +87,31 @@ export const QuestionPage: React.FC<QuestionPageProps> = ({
             type="text"
             value={currentAnswer as string}
             onChange={(e) => onAnswer(e.target.value)}
-            placeholder="Type your answer here..."
-            className="w-full p-4 bg-white dark:bg-gray-700 rounded-lg
-                       border border-gray-300 dark:border-gray-600
-                       focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder={t('question')}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                       focus:ring-blue-500 focus:border-blue-500 block w-full p-4
+                       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                       dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
         );
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950 p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+          <div className="text-base font-medium text-gray-900 dark:text-white">
             {t('question')} {currentQuestion + 1} {t('of')} {totalQuestions}
           </div>
-          <div className="text-lg font-mono bg-white dark:bg-gray-800 px-4 py-2 rounded-lg">
+          <div className="text-base font-medium text-gray-900 dark:text-white bg-gray-100 
+                          dark:bg-gray-800 px-4 py-2 rounded-lg font-mono">
             {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
           </div>
         </div>
 
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8">
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 
+                        dark:border-gray-700 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
             {question.question}
           </h2>
@@ -128,24 +131,26 @@ export const QuestionPage: React.FC<QuestionPageProps> = ({
           <button
             onClick={onPrev}
             disabled={currentQuestion === 0}
-            className="flex items-center gap-2 px-6 py-3 bg-gray-200 dark:bg-gray-700
-                       rounded-lg font-semibold disabled:opacity-50
-                       hover:bg-gray-300 dark:hover:bg-gray-600
-                       transform transition-all hover:scale-[1.02]"
+            className="flex items-center px-5 py-2.5 text-sm font-medium text-gray-900 
+                       bg-white border border-gray-200 rounded-lg hover:bg-gray-100 
+                       hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 
+                       dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 
+                       dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 
+                       disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 mr-2" />
             {t('previous')}
           </button>
 
           <button
             onClick={onNext}
-            className="flex items-center gap-2 px-6 py-3 bg-indigo-600
-                       text-white rounded-lg font-semibold
-                       hover:bg-indigo-700 transform transition-all
-                       hover:scale-[1.02] active:scale-[0.98]"
+            className="flex items-center px-5 py-2.5 text-sm font-medium text-white 
+                       bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 
+                       rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 
+                       focus:outline-none dark:focus:ring-blue-800"
           >
             {currentQuestion === totalQuestions - 1 ? t('finish') : t('next')}
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-5 h-5 ml-2" />
           </button>
         </div>
       </div>

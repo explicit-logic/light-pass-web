@@ -134,40 +134,43 @@ export const CompletionPage: React.FC<CompletionPageProps> = ({ answers, onResta
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-2xl w-full">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8 text-center">
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 
+                        dark:border-gray-700 mb-8 text-center">
           <div className="flex justify-center mb-6">
             <CheckCircle className="w-20 h-20 text-green-500" />
           </div>
           
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 
+                         dark:text-white">
             {t('congratulations')}
           </h1>
           
-          <p className="text-gray-600 dark:text-gray-300 mb-8">
+          <p className="mb-8 text-lg font-normal text-gray-500 dark:text-gray-400">
             {t('quizCompleted')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => setShowDialog(true)}
-              className="px-6 py-3 bg-indigo-600 text-white rounded-xl
-                         font-semibold flex items-center justify-center gap-2
-                         hover:bg-indigo-700 transform transition-all
-                         hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center justify-center px-5 py-3 text-base font-medium 
+                         text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 
+                         focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 
+                         dark:focus:ring-blue-800"
             >
-              <Download className="w-5 h-5" />
-              <Key className="w-5 h-5" />
+              <Download className="w-5 h-5 mr-2" />
+              <Key className="w-5 h-5 mr-2" />
               {t('downloadAnswers')}
             </button>
             
             <button
               onClick={onRestart}
-              className="px-6 py-3 bg-gray-200 dark:bg-gray-700
-                         text-gray-800 dark:text-white rounded-xl font-semibold
-                         hover:bg-gray-300 dark:hover:bg-gray-600
-                         transform transition-all hover:scale-[1.02]"
+              className="inline-flex items-center justify-center px-5 py-3 text-base font-medium 
+                         text-center text-gray-900 bg-white border border-gray-300 rounded-lg 
+                         hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 
+                         dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 
+                         dark:hover:border-gray-700 dark:focus:ring-gray-700"
             >
               {t('startNewQuiz')}
             </button>
@@ -175,38 +178,40 @@ export const CompletionPage: React.FC<CompletionPageProps> = ({ answers, onResta
         </div>
 
         {showDialog && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full">
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="relative w-full max-w-md bg-white rounded-lg shadow dark:bg-gray-800 p-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 {t('enterInformation')}
               </h2>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     {t('name')}
                   </label>
                   <input
                     type="text"
                     value={userInfo.name}
                     onChange={(e) => setUserInfo(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600
-                               rounded-lg bg-white dark:bg-gray-700
-                               focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     {t('email')}
                   </label>
                   <input
                     type="email"
                     value={userInfo.email}
                     onChange={(e) => setUserInfo(prev => ({ ...prev, email: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600
-                               rounded-lg bg-white dark:bg-gray-700
-                               focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -215,19 +220,22 @@ export const CompletionPage: React.FC<CompletionPageProps> = ({ answers, onResta
                 <button
                   onClick={handleDownload}
                   disabled={!userInfo.name || !userInfo.email}
-                  className="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-xl
-                             font-semibold disabled:opacity-50 disabled:cursor-not-allowed
-                             hover:bg-indigo-700 transform transition-all
-                             hover:scale-[1.02] active:scale-[0.98]"
+                  className="flex-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
+                             focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 
+                             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 
+                             disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {t('download')}
                 </button>
                 
                 <button
                   onClick={() => setShowDialog(false)}
-                  className="flex-1 px-6 py-3 bg-gray-200 dark:bg-gray-700
-                             text-gray-800 dark:text-white rounded-xl font-semibold
-                             hover:bg-gray-300 dark:hover:bg-gray-600"
+                  className="flex-1 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 
+                             focus:ring-gray-200 border border-gray-200 rounded-lg text-sm 
+                             font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 
+                             dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 
+                             dark:hover:text-white dark:hover:bg-gray-600 
+                             dark:focus:ring-gray-600"
                 >
                   {t('cancel')}
                 </button>
