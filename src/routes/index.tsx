@@ -8,5 +8,5 @@ export const Route = createFileRoute('/')({
 
 function MainRoute() {
   const navigate = useNavigate();
-  return <MainPage onStart={() => navigate({ to: '/quiz' })} />;
+  return <MainPage onStart={() => navigate({ to: '/quiz/$questionId', params: { questionId: 'q1' } })} />;
 }

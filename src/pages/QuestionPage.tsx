@@ -1,27 +1,30 @@
 import React from 'react';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
-import quizData from '@/data/quiz.json';
 import { useLanguage } from '@/hooks/useLanguage';
+import { Question } from '@/types/quiz';
 
 interface QuestionPageProps {
-  currentQuestion: number;
+  question: Question;
   onAnswer: (answer: string | string[]) => void;
   onNext: () => void;
   onPrev: () => void;
   answers: Record<string, string | string[]>;
   timeRemaining: number;
+  currentQuestion: number;
+  totalQuestions: number;
 }
 
 export const QuestionPage: React.FC<QuestionPageProps> = ({
-  currentQuestion,
+  question,
   onAnswer,
   onNext,
   onPrev,
   answers,
   timeRemaining,
+  currentQuestion,
+  totalQuestions,
 }) => {
   const { t } = useLanguage();
-  const question = quizData.questions[currentQuestion];
   const minutes = Math.floor(timeRemaining / 60);
   const seconds = timeRemaining % 60;
   const currentAnswer = answers[question.id] || (question.type === 'multiple-response' ? [] : '');
@@ -98,7 +101,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = ({
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-            {t('question')} {currentQuestion + 1} {t('of')} {quizData.questions.length}
+            {t('question')} {currentQuestion + 1} {t('of')} {totalQuestions}
           </div>
           <div className="text-lg font-mono bg-white dark:bg-gray-800 px-4 py-2 rounded-lg">
             {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
@@ -141,7 +144,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = ({
                        hover:bg-indigo-700 transform transition-all
                        hover:scale-[1.02] active:scale-[0.98]"
           >
-            {currentQuestion === quizData.questions.length - 1 ? t('finish') : t('next')}
+            {currentQuestion === totalQuestions - 1 ? t('finish') : t('next')}
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>

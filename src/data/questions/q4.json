@@ -1,0 +1,13 @@
+{
+  "id": "q4",
+  "type": "multiple-choice",
+  "question": "Looking at this CSS Box Model diagram, which layer comes immediately after the content?",
+  "imageUrl": "https://images.unsplash.com/photo-1544982877-f0f4427dee24?w=800&auto=format&fit=crop&q=60",
+  "options": [
+    "Padding",
+    "Border",
+    "Margin",
+    "Outline"
+  ],
+  "correctAnswer": "Padding"
+} 

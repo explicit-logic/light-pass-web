@@ -11,17 +11,11 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as QuizImport } from './routes/quiz'
 import { Route as CompletionImport } from './routes/completion'
 import { Route as IndexImport } from './routes/index'
+import { Route as QuizQuestionIdImport } from './routes/quiz.$questionId'
 
 // Create/Update Routes
-
-const QuizRoute = QuizImport.update({
-  id: '/quiz',
-  path: '/quiz',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const CompletionRoute = CompletionImport.update({
   id: '/completion',
@@ -32,6 +26,12 @@ const CompletionRoute = CompletionImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const QuizQuestionIdRoute = QuizQuestionIdImport.update({
+  id: '/quiz/$questionId',
+  path: '/quiz/$questionId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,11 +53,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompletionImport
       parentRoute: typeof rootRoute
     }
-    '/quiz': {
-      id: '/quiz'
-      path: '/quiz'
-      fullPath: '/quiz'
-      preLoaderRoute: typeof QuizImport
+    '/quiz/$questionId': {
+      id: '/quiz/$questionId'
+      path: '/quiz/$questionId'
+      fullPath: '/quiz/$questionId'
+      preLoaderRoute: typeof QuizQuestionIdImport
       parentRoute: typeof rootRoute
     }
   }
@@ -68,41 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/completion': typeof CompletionRoute
-  '/quiz': typeof QuizRoute
+  '/quiz/$questionId': typeof QuizQuestionIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/completion': typeof CompletionRoute
-  '/quiz': typeof QuizRoute
+  '/quiz/$questionId': typeof QuizQuestionIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/completion': typeof CompletionRoute
-  '/quiz': typeof QuizRoute
+  '/quiz/$questionId': typeof QuizQuestionIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/completion' | '/quiz'
+  fullPaths: '/' | '/completion' | '/quiz/$questionId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/completion' | '/quiz'
-  id: '__root__' | '/' | '/completion' | '/quiz'
+  to: '/' | '/completion' | '/quiz/$questionId'
+  id: '__root__' | '/' | '/completion' | '/quiz/$questionId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompletionRoute: typeof CompletionRoute
-  QuizRoute: typeof QuizRoute
+  QuizQuestionIdRoute: typeof QuizQuestionIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompletionRoute: CompletionRoute,
-  QuizRoute: QuizRoute,
+  QuizQuestionIdRoute: QuizQuestionIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +117,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/completion",
-        "/quiz"
+        "/quiz/$questionId"
       ]
     },
     "/": {
@@ -126,8 +126,8 @@ export const routeTree = rootRoute
     "/completion": {
       "filePath": "completion.tsx"
     },
-    "/quiz": {
-      "filePath": "quiz.tsx"
+    "/quiz/$questionId": {
+      "filePath": "quiz.$questionId.tsx"
     }
   }
 }

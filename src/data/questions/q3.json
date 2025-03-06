@@ -1,0 +1,6 @@
+{
+  "id": "q3",
+  "type": "fill-in-blank",
+  "question": "The ________ hook is used to manage state in React functional components.",
+  "correctAnswer": "useState"
+} 
