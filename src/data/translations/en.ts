@@ -18,4 +18,11 @@ export const en = {
   cancel: 'Cancel',
   question: 'Question',
   of: 'of',
+  uploadTitle: 'Upload Quiz',
+  uploadDescription: 'Upload a ZIP file containing quiz configuration',
+  dropFilesHere: 'Drop your ZIP file here or click to browse',
+  supportedFormats: 'Supported format: ZIP',
+  uploading: 'Uploading...',
+  uploadQuiz: 'Upload Quiz',
+  loading: 'Loading quiz data...',
 } as const;

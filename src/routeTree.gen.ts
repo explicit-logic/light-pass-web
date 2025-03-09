@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as StartImport } from './routes/start'
 import { Route as CompletionImport } from './routes/completion'
 import { Route as IndexImport } from './routes/index'
 import { Route as QuizQuestionIdImport } from './routes/quiz.$questionId'
 
 // Create/Update Routes
+
+const StartRoute = StartImport.update({
+  id: '/start',
+  path: '/start',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const CompletionRoute = CompletionImport.update({
   id: '/completion',
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompletionImport
       parentRoute: typeof rootRoute
     }
+    '/start': {
+      id: '/start'
+      path: '/start'
+      fullPath: '/start'
+      preLoaderRoute: typeof StartImport
+      parentRoute: typeof rootRoute
+    }
     '/quiz/$questionId': {
       id: '/quiz/$questionId'
       path: '/quiz/$questionId'
@@ -68,12 +82,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/completion': typeof CompletionRoute
+  '/start': typeof StartRoute
   '/quiz/$questionId': typeof QuizQuestionIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/completion': typeof CompletionRoute
+  '/start': typeof StartRoute
   '/quiz/$questionId': typeof QuizQuestionIdRoute
 }
 
@@ -81,27 +97,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/completion': typeof CompletionRoute
+  '/start': typeof StartRoute
   '/quiz/$questionId': typeof QuizQuestionIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/completion' | '/quiz/$questionId'
+  fullPaths: '/' | '/completion' | '/start' | '/quiz/$questionId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/completion' | '/quiz/$questionId'
-  id: '__root__' | '/' | '/completion' | '/quiz/$questionId'
+  to: '/' | '/completion' | '/start' | '/quiz/$questionId'
+  id: '__root__' | '/' | '/completion' | '/start' | '/quiz/$questionId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompletionRoute: typeof CompletionRoute
+  StartRoute: typeof StartRoute
   QuizQuestionIdRoute: typeof QuizQuestionIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompletionRoute: CompletionRoute,
+  StartRoute: StartRoute,
   QuizQuestionIdRoute: QuizQuestionIdRoute,
 }
 
@@ -117,6 +136,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/completion",
+        "/start",
         "/quiz/$questionId"
       ]
     },
@@ -125,6 +145,9 @@ export const routeTree = rootRoute
     },
     "/completion": {
       "filePath": "completion.tsx"
+    },
+    "/start": {
+      "filePath": "start.tsx"
     },
     "/quiz/$questionId": {
       "filePath": "quiz.$questionId.tsx"

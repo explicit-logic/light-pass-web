@@ -1,12 +1,12 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-
-import { MainPage } from '@/pages/MainPage';
+import { createFileRoute } from '@tanstack/react-router';
+import { UploadPage } from '@/pages/UploadPage';
 
 export const Route = createFileRoute('/')({
   component: MainRoute,
 });
 
 function MainRoute() {
-  const navigate = useNavigate();
-  return <MainPage onStart={() => navigate({ to: '/quiz/$questionId', params: { questionId: 'q1' } })} />;
+  const handleUploadSuccess = () => {};
+
+  return <UploadPage onUploadSuccess={handleUploadSuccess} />;
 }

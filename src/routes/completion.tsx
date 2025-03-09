@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { CompletionPage } from '../pages/CompletionPage';
-import { useQuiz } from '../hooks/useQuiz';
+import { useQuiz } from '@/hooks/useQuiz';
+import { useEffect } from 'react';
 
 export const Route = createFileRoute('/completion')({
   component: CompletionRoute,
@@ -8,12 +9,24 @@ export const Route = createFileRoute('/completion')({
 
 function CompletionRoute() {
   const navigate = useNavigate();
-  const { answers, resetQuiz } = useQuiz();
+  const { quizData, resetQuiz: resetQuizData, answers, resetQuiz: resetQuizState } = useQuiz();
+
+  // If quiz data is not loaded, redirect to home
+  useEffect(() => {
+    if (!quizData) {
+      navigate({ to: '/' });
+    }
+  }, [quizData, navigate]);
 
   const handleRestart = () => {
-    resetQuiz();
+    resetQuizState();
+    resetQuizData();
     navigate({ to: '/' });
   };
+
+  if (!quizData) {
+    return null;
+  }
 
   return (
     <CompletionPage

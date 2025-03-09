@@ -18,4 +18,11 @@ export const uk = {
   cancel: 'Скасувати',
   question: 'Питання',
   of: 'з',
+  uploadTitle: 'Завантажити Тест',
+  uploadDescription: 'Завантажте ZIP-архів з конфігурацією тесту',
+  dropFilesHere: 'Перетягніть ZIP-файл сюди або натисніть для вибору',
+  supportedFormats: 'Підтримуваний формат: ZIP',
+  uploading: 'Завантаження...',
+  uploadQuiz: 'Завантажити Тест',
+  loading: 'Завантаження даних тесту...',
 } as const;

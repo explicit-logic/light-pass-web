@@ -1,24 +1,38 @@
 import React from 'react';
 import { Clock, FileQuestion } from 'lucide-react';
-import quizData from '@/data/quiz.json';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useQuiz } from '@/hooks/useQuiz';
 
-interface MainPageProps {
+interface StartPageProps {
   onStart: () => void;
 }
 
-export const MainPage: React.FC<MainPageProps> = ({ onStart }) => {
+export const StartPage: React.FC<StartPageProps> = ({ onStart }) => {
   const { t } = useLanguage();
+  const { quizData } = useQuiz();
+
+  // If quiz data is not loaded, show a loading message
+  if (!quizData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <p className="text-lg font-normal text-gray-500 dark:text-gray-400">
+            {t('loading') || 'Loading quiz data...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-2xl w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 dark:text-white text-center">
-          {t('title')}
+          {quizData.title || t('title')}
         </h1>
         
         <p className="mb-8 text-lg font-normal text-gray-500 dark:text-gray-400 text-center">
-          {t('description')}
+          {quizData.description || t('description')}
         </p>
 
         <div className="flex flex-col md:flex-row justify-center gap-6 mb-8">
