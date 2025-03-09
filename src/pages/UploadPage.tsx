@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, AlertCircle } from 'lucide-react';
-import { useQuiz } from '@/hooks/useQuiz';
+import { useNavigate } from '@tanstack/react-router';
+import { loadQuizFromZip } from '@/utils/loadQuizFromZip';
 import { useLanguage } from '@/hooks/useLanguage';
 
 interface UploadPageProps {
@@ -8,8 +9,10 @@ interface UploadPageProps {
 }
 
 export const UploadPage: React.FC<UploadPageProps> = ({ onUploadSuccess }) => {
-  const { loadQuizFromZip, isLoading, error } = useQuiz();
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -41,8 +44,16 @@ export const UploadPage: React.FC<UploadPageProps> = ({ onUploadSuccess }) => {
 
   const handleUpload = async () => {
     if (!selectedFile) return;
-    
-    await loadQuizFromZip(selectedFile);
+
+    try {
+      setIsLoading(true);
+      await loadQuizFromZip(selectedFile);
+      navigate({ to: '/start' });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load quiz from ZIP file');
+    } finally {
+      setIsLoading(false);
+    }
     
     // If no error occurred, proceed to the next page
     if (!error) {

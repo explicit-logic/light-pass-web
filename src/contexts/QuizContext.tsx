@@ -3,10 +3,8 @@ import { LoadedQuiz } from '@/types/quiz';
 
 interface QuizContextType {
   quizData: LoadedQuiz | null;
-  isLoading: boolean;
   error: string | null;
-  loadQuizFromZip: (file: File) => Promise<void>;
-  resetQuiz: () => void;
+  resetQuiz: () => Promise<void>;
   // Quiz state from useQuiz
   currentQuestion: number;
   answers: Record<string, string | string[]>;
@@ -20,10 +18,8 @@ interface QuizContextType {
 
 const defaultValue: QuizContextType = {
   quizData: null,
-  isLoading: false,
   error: null,
-  loadQuizFromZip: () => Promise.resolve(),
-  resetQuiz: () => {},
+  resetQuiz: () => Promise.resolve(),
   // Default quiz state
   currentQuestion: 0,
   answers: {},

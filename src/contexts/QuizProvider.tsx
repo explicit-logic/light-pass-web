@@ -1,11 +1,10 @@
-import React, { useState, ReactNode, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, ReactNode, useEffect } from 'react';
 import { LoadedQuiz, QuizState } from '@/types/quiz';
-import JSZip from 'jszip';
 import { QuizContext } from './QuizContext';
+import { QUIZ_CACHE } from '@/config';
 
 export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [quizData, setQuizData] = useState<LoadedQuiz | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   
   // Quiz state from useQuiz
@@ -43,56 +42,6 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [quizState.isComplete, quizData]);
 
-  const loadQuizFromZip = async (file: File) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const zip = new JSZip();
-      const contents = await zip.loadAsync(file);
-      
-      // Look for quiz.json in the root of the ZIP
-      const quizFileEntry = Object.values(contents.files).find(
-        zipFile => zipFile.name === 'quiz.json' || zipFile.name.endsWith('/quiz.json')
-      );
-
-      if (!quizFileEntry) {
-        throw new Error('No quiz.json file found in the ZIP archive');
-      }
-
-      // Load the quiz.json file
-      const quizJsonContent = await quizFileEntry.async('string');
-      const quizJson = JSON.parse(quizJsonContent);
-
-      // Validate the quiz structure
-      if (!quizJson.title || !quizJson.description || !quizJson.timeLimit || !Array.isArray(quizJson.questions)) {
-        throw new Error('Invalid quiz.json format');
-      }
-
-      // Create the loaded quiz object
-      const loadedQuiz: LoadedQuiz = {
-        title: quizJson.title,
-        description: quizJson.description,
-        timeLimit: quizJson.timeLimit,
-        questions: quizJson.questions
-      };
-
-      setQuizData(loadedQuiz);
-      setIsLoading(false);
-      
-      // Reset quiz state when loading a new quiz
-      setQuizState({
-        currentQuestion: 0,
-        answers: {},
-        timeRemaining: loadedQuiz.timeLimit,
-        isComplete: false,
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load quiz from ZIP file');
-      setIsLoading(false);
-    }
-  };
-
   // Methods from useQuiz
   const handleAnswer = (questionId: string, answer: string | string[]) => {
     setQuizState(prev => ({
@@ -104,7 +53,7 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }));
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (quizData && quizState.currentQuestion === quizData.questions.length - 1) {
       setQuizState(prev => ({ ...prev, isComplete: true }));
     } else {
@@ -113,7 +62,7 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         currentQuestion: prev.currentQuestion + 1,
       }));
     }
-  };
+  }, [quizData, quizState.currentQuestion]);
 
   const handlePrev = () => {
     setQuizState(prev => ({
@@ -122,7 +71,12 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }));
   };
 
-  const resetQuiz = () => {
+  const resetQuiz = async () => {
+    try {
+      await caches.delete(QUIZ_CACHE);
+    } catch (err) {
+      console.error('Failed to delete quiz cache:', err);
+    }
     setQuizData(null);
     setError(null);
     setQuizState({
@@ -133,25 +87,23 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
   };
 
+  const value = useMemo(() => ({
+    quizData,
+    error,
+    resetQuiz,
+    // Quiz state
+    currentQuestion: quizState.currentQuestion,
+    answers: quizState.answers,
+    timeRemaining: quizState.timeRemaining,
+    isComplete: quizState.isComplete,
+    // Quiz methods
+    onAnswer: handleAnswer,
+    onNext: handleNext,
+    onPrev: handlePrev,
+  }), [quizData, error, quizState.currentQuestion, quizState.answers, quizState.timeRemaining, quizState.isComplete, handleNext]);
+
   return (
-    <QuizContext.Provider
-      value={{
-        quizData,
-        isLoading,
-        error,
-        loadQuizFromZip,
-        resetQuiz,
-        // Quiz state
-        currentQuestion: quizState.currentQuestion,
-        answers: quizState.answers,
-        timeRemaining: quizState.timeRemaining,
-        isComplete: quizState.isComplete,
-        // Quiz methods
-        onAnswer: handleAnswer,
-        onNext: handleNext,
-        onPrev: handlePrev,
-      }}
-    >
+    <QuizContext.Provider value={value}>
       {children}
     </QuizContext.Provider>
   );

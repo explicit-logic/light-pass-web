@@ -1,8 +1,14 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { StartPage } from '@/pages/StartPage';
+import { loadQuizManifest } from '@/utils/loadQuizManifest';
 
 export const Route = createFileRoute('/start')({
   component: StartRoute,
+  loader: async () => {
+    const manifest = await loadQuizManifest();
+
+    return { manifest };
+  }
 });
 
 function StartRoute() {
