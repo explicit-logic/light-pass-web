@@ -12,10 +12,13 @@ export const Route = createFileRoute('/start')({
 });
 
 function StartRoute() {
+  const { manifest } = Route.useLoaderData();
   const navigate = useNavigate();
 
   const handleStartQuiz = () => {
-    navigate({ to: '/quiz/$questionId', params: { questionId: 'q1' } });
+    const { pageOrder } = manifest;
+    const [first] = pageOrder;
+    navigate({ to: '/quiz/$pageId', params: { pageId: first.id } });
   };
 
   // If quiz data is loaded, show the main page
