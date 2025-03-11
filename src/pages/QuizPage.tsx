@@ -78,22 +78,35 @@ export const QuizPage: React.FC<QuizPageProps> = ({
               render={({ field }) => (
                 <div className="space-y-4">
                   {question.options.map((option: QuestionOption) => (
-                    <div key={option.id} className="flex items-center">
+                    <div key={option.id} className="relative">
                       <input
                         type="radio"
                         id={option.id}
                         value={option.id}
                         checked={field.value === option.id}
                         onChange={() => field.onChange(option.id)}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 
-                                 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 
-                                 dark:border-gray-600"
+                        className="peer absolute opacity-0 w-full h-full cursor-pointer"
+                        aria-labelledby={`label-${option.id}`}
                       />
                       <label 
+                        id={`label-${option.id}`}
                         htmlFor={option.id}
-                        className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        className="flex w-full p-4 text-sm font-medium text-gray-900 bg-white border-2 
+                                 border-gray-200 rounded-lg cursor-pointer dark:text-gray-300 
+                                 dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-50 
+                                 dark:hover:bg-gray-600 peer-checked:border-blue-600 
+                                 peer-checked:text-blue-600 dark:peer-checked:text-blue-500 
+                                 peer-checked:bg-blue-50 dark:peer-checked:bg-gray-800 
+                                 transition-all duration-200 ease-in-out"
                       >
-                        {option.text}
+                        <div className="flex items-center">
+                          <div className="w-5 h-5 mr-3 border-2 rounded-full flex-shrink-0
+                                      border-gray-300 dark:border-gray-500
+                                      peer-checked:border-blue-600 dark:peer-checked:border-blue-500
+                                      peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500">
+                          </div>
+                          {option.text}
+                        </div>
                       </label>
                     </div>
                   ))}
@@ -127,7 +140,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({
                   {question.options.map((option: QuestionOption) => {
                     const values = field.value as string[] || [];
                     return (
-                      <div key={option.id} className="flex items-center">
+                      <div key={option.id} className="relative">
                         <input
                           type="checkbox"
                           id={option.id}
@@ -139,15 +152,28 @@ export const QuizPage: React.FC<QuizPageProps> = ({
                               : values.filter(id => id !== option.id);
                             field.onChange(newValues);
                           }}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded 
-                                   focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 
-                                   dark:bg-gray-700 dark:border-gray-600"
+                          className="peer absolute opacity-0 w-full h-full cursor-pointer"
+                          aria-labelledby={`label-${option.id}`}
                         />
                         <label 
+                          id={`label-${option.id}`}
                           htmlFor={option.id}
-                          className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="flex w-full p-4 text-sm font-medium text-gray-900 bg-white border-2 
+                                   border-gray-200 rounded-lg cursor-pointer dark:text-gray-300 
+                                   dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-50 
+                                   dark:hover:bg-gray-600 peer-checked:border-blue-600 
+                                   peer-checked:text-blue-600 dark:peer-checked:text-blue-500 
+                                   peer-checked:bg-blue-50 dark:peer-checked:bg-gray-800 
+                                   transition-all duration-200 ease-in-out"
                         >
-                          {option.text}
+                          <div className="flex items-center">
+                            <div className="w-5 h-5 mr-3 border-2 rounded flex-shrink-0
+                                        border-gray-300 dark:border-gray-500
+                                        peer-checked:border-blue-600 dark:peer-checked:border-blue-500
+                                        peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500">
+                            </div>
+                            {option.text}
+                          </div>
                         </label>
                       </div>
                     );
